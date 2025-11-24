@@ -1,0 +1,203 @@
+/* --- CSS Variables & Reset --- */
+        :root {
+            --color-bg: #ffffff;
+            --color-text-dark: #111111;
+            --color-text-gray: #666666;
+            --color-border: #e5e5e5;
+            --color-accent-red: #ff4d4f;
+            --card-bg: #ffffff;
+            
+            --font-primary: 'Inter', sans-serif;
+            
+            --gap-size: 24px;
+            --card-width: 220px;
+            --card-height: 100px;
+            --scroll-duration: 40s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--color-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden; /* Prevent horizontal scrollbar from marquee */
+        }
+
+        /* --- Main Section --- */
+        .partners-section {
+            width: 100%;
+            padding: 4rem 0;
+            text-align: center;
+            position: relative;
+        }
+
+        /* --- Header Area --- */
+        .partners-header {
+            margin-bottom: 4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .partners-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: #fff;
+            border: 1px solid var(--color-border);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--color-text-dark);
+            text-transform: uppercase;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+
+        .partners-badge__icon {
+            color: var(--color-accent-red);
+            display: flex;
+            align-items: center;
+        }
+
+        .partners-header__title {
+            font-size: 5.1rem;
+            font-weight: 600;
+            color: var(--color-text-dark);
+            letter-spacing: -0.03em;
+        }
+
+        /* --- Marquee Container --- */
+        .marquee-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: var(--gap-size);
+            position: relative;
+        }
+
+        /* Add fade mask to edges */
+        .marquee-container::before,
+        .marquee-container::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 150px;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .marquee-container::before {
+            left: 0;
+            background: linear-gradient(to right, var(--color-bg), transparent);
+        }
+
+        .marquee-container::after {
+            right: 0;
+            background: linear-gradient(to left, var(--color-bg), transparent);
+        }
+
+        /* --- Marquee Rows --- */
+        .marquee-row {
+            display: flex;
+            width: 100%;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        .marquee-row__track {
+            display: flex;
+            gap: var(--gap-size);
+            width: max-content; /* Ensures track fits all items */
+        }
+
+        /* Animation Directions */
+        .marquee-row--left .marquee-row__track {
+            animation: scrollLeft var(--scroll-duration) linear infinite;
+        }
+
+        .marquee-row--right .marquee-row__track {
+            animation: scrollRight var(--scroll-duration) linear infinite;
+        }
+
+        /* Pause on hover for accessibility/interaction */
+        .marquee-row:hover .marquee-row__track {
+            animation-play-state: paused;
+        }
+
+        /* --- Logo Cards --- */
+        .brand-card {
+            width: var(--card-width);
+            height: var(--card-height);
+            background-color: var(--card-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 1px; /* Slightly rounded corners like image */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            padding: 0 1.5rem;
+            flex-shrink: 0; /* Prevent squishing */
+            transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+            color: #777; /* Base logo color */
+        }
+
+        .brand-card:hover {
+            border-color: #d1d1d1;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            color: #333; /* Darken on hover */
+           
+        }
+
+        .brand-card__logo {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        .brand-card__name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: inherit;
+            letter-spacing: -0.02em;
+        }
+
+        /* --- Keyframes --- */
+        @keyframes scrollLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-50% - (var(--gap-size) / 2))); }
+        }
+
+        @keyframes scrollRight {
+            0% { transform: translateX(calc(-50% - (var(--gap-size) / 2))); }
+            100% { transform: translateX(0); }
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .partners-header__title {
+                font-size: 2.5rem;
+            }
+            
+            :root {
+                --card-width: 180px;
+                --card-height: 64px;
+                --gap-size: 16px;
+            }
+
+            .brand-card__name {
+                font-size: 1rem;
+            }
+        }
